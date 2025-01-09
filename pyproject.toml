@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "summarease"
+version = "0.1.0"
+description = "A package that provides quick summaries of datasets, including data types, missing value counts, and basic statistics."
+authors = ["Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.semantic_release]
+version_toml = [
+    "pyproject.toml:tool.poetry.version",
+]                                                    # version location
+branch = "main"                                      # branch to make releases of
+changelog_file = "CHANGELOG.md"                      # changelog file
+build_command = "pip install poetry && poetry build" # build dists 
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

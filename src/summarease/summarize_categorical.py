@@ -10,14 +10,14 @@ def summarize_categorical(dataset, summarize_by="table"):
             The dataset to analyze.
         summarize_by (str): 
             The format for summarizing the categorical variables. 
-                            Options are "table" (default), "plot" or "mixed". If "table", a summary table is 
+                            Options are "table" (default) or "plot". If "table", a summary table is 
                             generated with the counts of unique categories for each categorical column. 
                             If "plot", a bar plot will be displayed for each categorical column showing 
-                            the frequency of each unique category. If "mixed", displays both table and plot.
+                            the frequency of each unique category.
 
     Returns:
     -------
-        None: Displays either a table or a plot or both, depending on the `summarize_by` argument.
+        None: Displays either a table or a plot, depending on the `summarize_by` argument.
 
     Notes:
     ------

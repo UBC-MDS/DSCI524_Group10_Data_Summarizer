@@ -22,7 +22,7 @@ Interested in contributing? Check out the contributing guidelines. Please note t
 
 ## Contributors
 
-`summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong
+`summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, and Zuer Zhong.
 
 ## Credits
 

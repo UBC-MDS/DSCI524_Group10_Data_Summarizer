@@ -8,32 +8,32 @@ Summarease is a package designed to provide quick insights into a dataset by sum
 
 ## Package Features
 
-`clean_data`: 
-    Clean the input dataset by standardizing column names, replacing invalid values, and ensuring proper data types.
+- `clean_data`:  
+  Clean the input dataset by standardizing column names, replacing invalid values, and ensuring proper data types.
 
-`summarize_dtypes`: 
-    Summarize the data types in the dataset.
+- `summarize_dtypes`:  
+  Summarize the data types in the dataset.
 
-`summarize_missing_values`: 
-    Summarize the missing values in the dataset, providing information on the number and percentage of missing values for each column. Generate a summary table or visualization to show the missing values based on user's choice.
+- `summarize_missing_values`:  
+  Summarize the missing values in the dataset, providing information on the number and percentage of missing values for each column. Generate a summary table or visualization to show the missing values based on the user's choice.
 
-`summarize_outliers`: 
-    Check and summarize the outliers by Z-scores in specified numeric columns of a table. Generate a summary table or visualization based on user's choice.
+- `summarize_outliers`:  
+  Check and summarize the outliers by Z-scores in specified numeric columns of a table. Generate a summary table or visualization based on the user's choice.
 
-`summarize_target`: 
-    Summarize and evaluate the target variable for categarical or numerical types. Generate a summary table or visualization based on target's type.
+- `summarize_target`:  
+  Summarize and evaluate the target variable for categorical or numerical types. Generate a summary table or visualization based on the target's type.
 
-`summarize_categorical`: 
-    Summarize the categorical variables in the dataset by providing the number of unique categories for each categorical column. If any categorical columns have too many unique categories, a warning is issued.
+- `summarize_categorical`:  
+  Summarize the categorical variables in the dataset by providing the number of unique categories for each categorical column. If any categorical columns have too many unique categories, a warning is issued.
 
-`summarize_numeric`: 
-    Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap to visualize the relationships between numeric variables. Generate a summary table or visualization based on user's choice.
+- `summarize_numeric`:  
+  Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap to visualize the relationships between numeric variables. Generate a summary table or visualization based on the user's choice.
 
-`plot_correlation_heatmap`: 
-    Generate and save a correlation heatmap for the specified numeric columns in a dataset.
+- `plot_correlation_heatmap`:  
+  Generate and save a correlation heatmap for the specified numeric columns in a dataset.
 
-`summarize`: 
-    Summarizes the given dataset by generating various statistics, visualizations, and/or tables based on the provided options.
+- `summarize`:  
+  Summarize the given dataset by generating various statistics, visualizations, and/or tables based on the provided options.
 
 ## Fit Within Python Ecosystem
 

@@ -2,8 +2,8 @@ def summarize_numeric(dataset, summarize_by="table"):
     """
     Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, 
     standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap 
-    to visualize the relationships between numeric variables. The summary type provided is requested 
-    based on the `summarize_by` argument.
+    to visualize the relationships between numeric variables or both. The summary type provided is 
+    requested based on the `summarize_by` argument.
 
     Parameters:
     ----------
@@ -22,6 +22,7 @@ def summarize_numeric(dataset, summarize_by="table"):
               depending on the `summarize_by` argument.
 
     Notes:
+    ------
         - The correlation heatmap is only applicable if there are two or more numeric columns in the dataset.
         - The summary statistics for numeric columns are computed using `df.describe()`, and additional details 
           (such as count, mean, standard deviation, min, max, etc.) will be included.

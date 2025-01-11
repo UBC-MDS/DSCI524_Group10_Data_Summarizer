@@ -24,7 +24,7 @@ def summarize_target(dataset_name, target_variable, target_type, threshold=0.2):
     Notes:
     -----
     For categorical type, the function does not distinguish between binary and 
-    multi-class classification.
+        multi-class classification.
     Balance criteria: Assume n classes, each class should between 
         [(1-threshold)/n, (1+threshold)/n].
     For numerical type, distribution visualization will be provided.

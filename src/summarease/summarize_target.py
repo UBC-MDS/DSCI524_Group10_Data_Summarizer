@@ -15,17 +15,18 @@ def summarize_target(dataset_name, target_variable, target_type, threshold=0.2):
 
     Returns
     -------
-    dict 
-        A summary dictionary.
-        Categorical: contains class proportions and imbalance flag.
-        Numerical: contains mean, median, and skewness. 
-                   A plot of distribution will be displayed.
+    dict or None
+        If target_type="categorical", returns a summary dictionary 
+            containing class proportions and imbalance flag.
+        If target_type="numerical", returns None. 
+            A plot of distribution will be displayed.
 
     Notes:
     -----
     For categorical type, the function does not distinguish between binary and 
     multi-class classification.
-    For numerical type, distribution visualization will be provided
+    Blance criteria: Assume n classes, each class should between [0.8/n, 1.2/n].
+    For numerical type, distribution visualization will be provided.
 
     Examples
     --------

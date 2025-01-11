@@ -18,7 +18,7 @@ Interested in contributing? Check out the contributing guidelines. Please note t
 
 ## License
 
-`summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong. It is licensed under the terms of the MIT license.
+`summarease` is licensed under the terms of the MIT license.
 
 ## Contributors
 

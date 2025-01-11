@@ -20,6 +20,10 @@ Interested in contributing? Check out the contributing guidelines. Please note t
 
 `summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong. It is licensed under the terms of the MIT license.
 
+## Contributors
+
+`summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong
+
 ## Credits
 
 `summarease` was created with [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) and the `py-pkgs-cookiecutter` [template](https://github.com/py-pkgs/py-pkgs-cookiecutter).

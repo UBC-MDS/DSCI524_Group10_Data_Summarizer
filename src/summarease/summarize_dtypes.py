@@ -1,4 +1,4 @@
-def summarize_dtypes(dataset, summarize_by="table"):
+def summarize_dtypes(dataset: pd.Dataframe, summarize_by: str = "table"):
     """Summarize the data types in the dataset.
 
     Parameters

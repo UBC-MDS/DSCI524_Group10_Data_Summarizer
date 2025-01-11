@@ -1,4 +1,5 @@
-def summarize_target(dataset_name, target_variable, target_type, threshold=0.2):
+def summarize_target(dataset: pd.Dataframe, target_variable: str, 
+                     target_type: str, threshold=0.2):
     """Summarize and evaluate the target variable for categarical or numerical types.
 
     Parameters

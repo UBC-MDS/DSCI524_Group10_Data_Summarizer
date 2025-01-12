@@ -1,4 +1,5 @@
-def summarize_outliers(dataset_name, columns=None, summarize_by="table"):
+def summarize_outliers(dataset: pd.Dataframe, columns: list = None, 
+                       summarize_by: str = "table"):
     """Check and summarize the outliers by Z-scores in specified numeric columns of a table.
 
     Parameters

@@ -1,4 +1,4 @@
-def summarize_categorical(dataset, summarize_by="table"):
+def summarize_categorical(dataset: pd.Dataframe, summarize_by: str = "table"):
     """
     Summarize the categorical variables in the dataset by providing the number of unique categories
     for each categorical column. If any categorical columns have too many unique categories, a warning 

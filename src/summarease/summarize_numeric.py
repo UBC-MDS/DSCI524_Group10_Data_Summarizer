@@ -1,4 +1,4 @@
-def summarize_numeric(dataset, summarize_by="table"):
+def summarize_numeric(dataset: pd.Dataframe, summarize_by: str = "table"):
     """
     Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, 
     standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap 

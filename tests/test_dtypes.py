@@ -3,8 +3,6 @@ import pandas as pd
 import sys
 import os
 from pandas.testing import assert_frame_equal
-
-# 确保可以正确导入模块
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from summarease.summarize_dtypes import summarize_dtypes_table
 

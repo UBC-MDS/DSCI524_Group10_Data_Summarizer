@@ -1,7 +1,5 @@
 # summarease
 
-A package that provides quick summaries of datasets, including data types, missing value counts, and basic statistics.
-
 ## Project Summary
 
 Summarease is a package designed to provide quick insights into a dataset by summarizing its key features. It offers functions that help users understand the structure of the data, making it easier to plan data cleaning and exploratory data analysis (EDA) tasks.
@@ -39,10 +37,10 @@ Summarease is a package designed to provide quick insights into a dataset by sum
 
 Summarease is a lightweight and compact Python package designed for efficiency and ease of use. Despite its simplicity, it offers users great flexibility to customize the output format, whether through detailed tables or insightful visualizations.
 
-Related packages with similar functionalities:
-sweetviz: https://github.com/fbdesignpro/sweetviz
-ydata-profiling: https://github.com/ydataai/ydata-profiling
-dtale: https://github.com/man-group/dtale
+Related packages with similar functionalities:  
+sweetviz: https://github.com/fbdesignpro/sweetviz  
+ydata-profiling: https://github.com/ydataai/ydata-profiling  
+dtale: https://github.com/man-group/dtale  
 
 ## Installation
 
@@ -63,11 +61,15 @@ from summarease.summarize_numeric import summarize_numeric
 from summarease.plot_correlation_heatmap import plot_correlation_heatmap
 from summarease.summarize import summarize
 import matplotlib.pyplot as plt
+
+TODO
 ```
 
 ## Contributing
 
-Interested in contributing? Check out the contributing guidelines. Please note that this project is released with a Code of Conduct. By contributing to this project, you agree to abide by its terms.
+Interested in contributing? Check out the contributing guidelines. 
+
+Please note that this project is released with a Code of Conduct. By contributing to this project, you agree to abide by its terms.
 
 ## License
 

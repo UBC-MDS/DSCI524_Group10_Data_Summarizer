@@ -115,7 +115,15 @@ def summarize_target_balance_plot(summary_df: pd.DataFrame):
     # Validate input DataFrame
     required_columns = {'class', 'proportion', 'imbalanced', 'threshold'}
     if not required_columns.issubset(summary_df.columns):
-        raise ValueError(f"Input DataFrame must contain columns: {required_columns}")
+        raise ValueError(f"Input DataFrame must contain columns: {', '.join(sorted(required_columns))}")
+
+    # Handle empty DataFrame
+    if summary_df.empty:
+        return alt.Chart(pd.DataFrame()).mark_text().encode(
+            text=alt.value("No data available for visualization.")
+        ).properties(
+            title="Categorical Target Balance Visualization (Empty)"
+        )
 
     # Add expected proportion range to the DataFrame
     n_classes = len(summary_df)

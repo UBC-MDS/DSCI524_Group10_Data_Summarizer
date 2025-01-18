@@ -1,7 +1,3 @@
-import pandas as pd
-import altair as alt
-import warnings
-
 def summarize_target_df(dataset_name: pd.DataFrame, target_variable: str, 
                      target_type: str, threshold=0.2):
     """Summarize and evaluate the target variable for categarical or numerical types.

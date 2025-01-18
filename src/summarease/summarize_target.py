@@ -1,4 +1,5 @@
 import pandas as pd
+import altair as alt
 import warnings
 
 def summarize_target_df(dataset_name: pd.DataFrame, target_variable: str, 
@@ -84,3 +85,84 @@ def summarize_target_df(dataset_name: pd.DataFrame, target_variable: str,
         raise ValueError("Invalid target_type. Must be 'categorical' or 'numerical'.")
 
     return summary_df
+
+
+
+def summarize_target_balance_plot(summary_df: pd.DataFrame):
+    """
+    Visualize the balance condition of a categorical target.
+
+    Parameters
+    ----------
+    summary_df : DataFrame
+        The input DataFrame, expected to match the output of summarize_target_df()
+        with target_type="categorical".
+        It must contain the columns ['class', 'proportion', 'imbalanced', 'threshold'].
+
+    Returns
+    -------
+    alt.Chart
+        The Altair chart visualizing the balance of the categorical target variable.
+
+    Notes
+    -----
+    The chart includes the following:
+        - A bar plot for actual class proportions.
+        - Expected proportion range (lower and upper bounds) as balance range.
+        - Imbalance status for each class indicated by color.
+        - Highlighted ticks for expected lower and upper bounds.
+    """
+    # Validate input DataFrame
+    required_columns = {'class', 'proportion', 'imbalanced', 'threshold'}
+    if not required_columns.issubset(summary_df.columns):
+        raise ValueError(f"Input DataFrame must contain columns: {required_columns}")
+
+    # Add expected proportion range to the DataFrame
+    n_classes = len(summary_df)
+    expected_proportion = 1 / n_classes
+    threshold = summary_df['threshold'].iloc[0]
+    summary_df['expected_lower'] = expected_proportion * (1 - threshold)
+    summary_df['expected_upper'] = expected_proportion * (1 + threshold)
+
+    # Bar chart for actual proportions
+    actual_dist = alt.Chart(summary_df).mark_bar(opacity=0.6).encode(
+        x=alt.X('class:N', title='Class'),
+        y=alt.Y('proportion:Q', title='Proportion'),
+        color=alt.Color('imbalanced:N', scale=alt.Scale(domain=[True, False], range=['red', 'green']),
+                        legend=alt.Legend(title="Imbalanced")),
+        tooltip=['class', 'proportion', 'imbalanced']
+    )
+
+    # Error bars for expected range
+    error_bar = alt.Chart(summary_df).mark_errorbar(color='black').encode(
+        x=alt.X('class:N', title='Class'),
+        y=alt.Y('expected_lower:Q', title='Expected Proportion Range'),
+        y2='expected_upper:Q'
+    )
+
+    # Add ticks to highlight lower and upper bounds
+    lower_ticks = alt.Chart(summary_df).mark_tick(
+        color='black',
+        thickness=2,
+        size=20  
+    ).encode(
+        x=alt.X('class:N', title='Class'),
+        y=alt.Y('expected_lower:Q')  
+    )
+
+    upper_ticks = alt.Chart(summary_df).mark_tick(
+        color='black',
+        thickness=2,
+        size=20  
+    ).encode(
+        x=alt.X('class:N'),
+        y=alt.Y('expected_upper:Q')  
+    )
+
+    balance_chart = (actual_dist + error_bar + lower_ticks + upper_ticks).properties(
+        width=600,
+        height=400,
+        title="Categorical Target Balance Visualization"
+    )
+
+    return balance_chart

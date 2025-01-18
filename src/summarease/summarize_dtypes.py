@@ -1,33 +1,47 @@
-def summarize_dtypes(dataset: pd.Dataframe, summarize_by: str = "table"):
-    """Summarize the data types in the dataset.
+import pandas as pd
+
+def summarize_dtypes_table(dataset: pd.DataFrame) -> pd.DataFrame:
+    """
+    Summarize the data types in the dataset and return a DataFrame.
 
     Parameters
     ----------
     dataset : DataFrame
         The input dataset to analyze.
-    summarize_by : str, within {"table", "plot"}, optional
-        Specifies the output format:
-        - "table": Returns a summary as a table.
-        - "plot": Visualizes the data type distribution as a plot.
-        Default is "table".
 
     Returns
     -------
-    dict or None
-        A dictionary containing the data type counts if `summarize_by="table"`.
-        If `summarize_by="plot"`, displays a visualization and returns None.
+    DataFrame
+        A DataFrame summarizing the counts of each data type.
 
-    Notes
-    -----
-    This function counts the occurrences of each data type in the dataset and
-    either generates a summary table or visualizes the distribution using a plot.
+    Raises
+    ------
+    TypeError
+        If the input dataset is not a pandas DataFrame.
 
     Examples
     --------
-    >>> summarize_dtypes(dataset=data, summarize_by="table")
-    {'int64': 5, 'float64': 3, 'object': 4}
-    
-    >>> summarize_dtypes(dataset=data, summarize_by="plot")
-    # Displays a bar plot showing the distribution of data types.
+    >>> data = pd.DataFrame({
+    ...     'int_col': [1, 2, 3],
+    ...     'float_col': [1.1, 2.2, 3.3],
+    ...     'str_col': ['a', 'b', 'c'],
+    ...     'bool_col': [True, False, True]
+    ... })
+    >>> summarize_dtypes_table(data)
+       DataType  Count
+    0    int64      1
+    1  float64      1
+    2   object      1
+    3     bool      1
     """
-    pass
+    if not isinstance(dataset, pd.DataFrame):
+        raise TypeError("The input dataset must be a pandas DataFrame.")
+    
+    # Get data types and their counts
+    dtype_counts = dataset.dtypes.value_counts().reset_index()
+    dtype_counts.columns = ['DataType', 'Count']
+
+    # Convert DataType column to string for consistent output
+    dtype_counts['DataType'] = dtype_counts['DataType'].astype(str)
+
+    return dtype_counts

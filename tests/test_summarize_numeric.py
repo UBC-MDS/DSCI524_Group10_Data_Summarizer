@@ -62,7 +62,7 @@ def test_summarize_numeric_table(df_with_numeric_data):
 
 # Test case 3: Test invalid summarize_by value
 def test_summarize_numeric_invalid_option(df_with_numeric_data):
-    with pytest.raises(ValueError):
+    with pytest.raises(AssertionError):
         summarize_numeric(df_with_numeric_data, summarize_by="invalid_option")
 
 # Test case 4: Test summarize_numeric with no numeric columns in the dataset

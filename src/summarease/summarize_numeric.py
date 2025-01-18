@@ -1,4 +1,5 @@
-def summarize_numeric(dataset: pd.Dataframe, summarize_by: str = "table"):
+import pandas as pd
+def summarize_numeric(dataset: pd.DataFrame, summarize_by: str = "table"):
     """
     Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, 
     standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap 
@@ -30,4 +31,20 @@ def summarize_numeric(dataset: pd.Dataframe, summarize_by: str = "table"):
     -------
     >>> summarize_numeric(dataset=df, summarize_by="table")
     """
-    pass
+    numeric_columns = dataset.select_dtypes(include='number').columns
+
+    if numeric_columns.empty:  # Check if there are no numeric columns
+        print("No numeric columns found in the dataset.")
+        return
+    
+    if summarize_by == "table":
+        # Generate summary statistics for numeric columns
+        summary = dataset[numeric_columns].describe()
+        print(summary)
+    
+    elif summarize_by == "plot":
+        # Generate a correlation heatmap for numeric columns
+        plot_correlation_heatmap(dataset, numeric_columns)
+    
+    else:
+        raise ValueError(f"Invalid value for summarize_by: {summarize_by}. Expected 'table' or 'plot'.")

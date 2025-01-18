@@ -3,6 +3,7 @@ from fpdf import FPDF
 import fpdf
 from pathlib import Path
 from summarize_numeric import summarize_numeric
+from summarize_target import summarize_target_df
 from PIL import Image
 
 
@@ -146,6 +147,7 @@ def add_table(pdf, table, pdf_height, pdf_width, element_padding=15):
     assert isinstance(pdf_height, int) or isinstance(pdf_height, float), f"Argument 'pdf_height' should be an integer or float. You have {type(pdf_height)}."
     assert isinstance(pdf_width, int) or isinstance(pdf_height, float), f"Argument 'pdf_width' should be an integer or float. You have {type(pdf_width)}."
     assert isinstance(element_padding, int), f"Argument 'element_padding' should be an integer. You have {type(element_padding)}."
+    assert not table.empty, f"The table shouldn't be empty"
 
     pdf.set_font('Arial', '', 9)
     
@@ -201,8 +203,10 @@ def add_table(pdf, table, pdf_height, pdf_width, element_padding=15):
 
     return pdf
 
-
-
+def switch_page_if_needed(pdf):
+    if pdf.get_y() > 30:
+        pdf.add_page()
+    return pdf
 
 def summarize(dataset: pd.DataFrame,
               dataset_name: str = "Dataset Summary", 
@@ -213,6 +217,7 @@ def summarize(dataset: pd.DataFrame,
               summarize_by: str = "mix", 
               auto_cleaning: bool = False, 
               target_variable: str = None,
+              target_type: str = "categorical",
               output_file: str = "summary.pdf",
               output_dir: str = "./summarease_summary/"
 ):
@@ -257,6 +262,9 @@ def summarize(dataset: pd.DataFrame,
 
     target_variable : str, optional, default=None
         The name of the target variable in the dataset. This helps in identifying the dependent variable for further analysis.
+
+    target_type : str, within {"categorical", "numerical"}
+        The type of target variable.
 
     output_file : str, optional, default="summary.pdf"
         The name of the output file where the summary will be saved.
@@ -307,6 +315,7 @@ def summarize(dataset: pd.DataFrame,
     assert isinstance(auto_cleaning, bool), f"Argument 'auto_cleaning' should be a boolean (bool)! You have {type(auto_cleaning)}."
     if target_variable is not None:
         assert isinstance(target_variable, str), f"Argument 'target_variable' should be a string (str)! You have {type(target_variable)}."
+        assert isinstance(target_type, str), f"Argument 'target_type' should be a string (str)! You have {type(target_type)}."
     assert isinstance(output_file, str), f"Argument 'output_file' should be a string (str)! You have {type(output_file)}."
     assert isinstance(output_dir, str), f"Argument 'output_dir' should be a string (str)! You have {type(output_dir)}."
     assert show_observations in {"random", "head", "tail"}, f"Argument 'show_observations' should be one of the following options: [random, head, tail]! You have {show_observations}."
@@ -325,6 +334,10 @@ def summarize(dataset: pd.DataFrame,
     if summarize_by in {"plot", "mix"}:
         plot_output_path = output_dir / "img"
         validate_or_create_path(plot_output_path)
+
+
+    dataset_shape = dataset.shape
+    assert (dataset_shape[1] >= 2 and dataset_shape[1] <= 15), f"The function currently supports dataframes having less than 15 columns and more than 2 columns! You have {dataset_shape[1]}"
 
     # Create the PDF
     pdf = FPDF()
@@ -346,6 +359,7 @@ def summarize(dataset: pd.DataFrame,
     pdf.set_font("Helvetica", size=11)
     pdf.multi_cell(page_width - 2 * pdf.l_margin, text_line_padding, txt=description, align='L')
 
+    pdf = switch_page_if_needed(pdf)
     pdf.set_font("Helvetica", size=13)
     pdf.cell(page_width - 2 * pdf.l_margin, element_padding, txt="Numeric Columns Summary", ln=True, align='C')
 
@@ -365,6 +379,16 @@ def summarize(dataset: pd.DataFrame,
     elif summarize_by == "table":
         summarized_numeric_output = summarize_numeric(dataset, summarize_by="table")
         pdf = add_table(pdf, table = summarized_numeric_output["numeric_describe"], pdf_height=page_height, pdf_width=page_width, element_padding=15)
+        if target_variable is not None:
+            pdf = switch_page_if_needed(pdf)
+            summarized_target_output = summarize_target_df(dataset, target_variable, target_type)
+            pdf.set_font("Helvetica", size=13)
+            pdf.cell(page_width - 2 * pdf.l_margin, element_padding, txt="Target Variable Summary", ln=True, align='C')
+            pdf.set_font("Helvetica", size=11)
+            pdf.multi_cell(page_width - 2 * pdf.l_margin, text_line_padding, txt=f"Target variable is a {target_type} variable. Please find the information about the target variable below:", align='L')
+            pdf = add_table(pdf, table = summarized_target_output, pdf_height=page_height, pdf_width=page_width, element_padding=15)
+
+    
 
     pdf.output(output_path)
     assert output_path.exists(), "Something went wrong... The PDF output was not saved."

@@ -106,12 +106,14 @@ def summarize_numeric(dataset: pd.DataFrame, summarize_by: str = "table"):
 
     elif summarize_by == "plot":
         # Generate a correlation heatmap for numeric columns
-        outputs["numeric_plot"] = plot_numeric_density(numeric_columns)
+        if len(dataset) < 2:
+            print("Insufficient data for meaningful plots.")
+            return {}
+
+        numeric_data = dataset[numeric_columns]
+        outputs["numeric_plot"] = plot_numeric_density(numeric_data)
         
-        if ( numeric_columns.shape[1] > 1):
-            outputs["corr_plot"] = plot_correlation_heatmap(numeric_columns)
-    
-    #else:
-    #    raise ValueError(f"Invalid value for summarize_by: {summarize_by}. Expected 'table' or 'plot'.")
+        if len(numeric_columns) > 1:
+            outputs["corr_plot"] = plot_correlation_heatmap(numeric_data)
 
     return outputs

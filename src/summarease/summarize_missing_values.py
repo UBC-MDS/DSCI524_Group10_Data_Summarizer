@@ -1,4 +1,4 @@
-def summarize_missing_values(dataset: pd.Dataframe, summarize_by: str = "table"):
+def summarize_missing_values(dataset: pd.DataFrame, summarize_by: str = "table"):
     """
     Summarize the missing values in the dataset, providing information on the number and percentage of 
     missing values for each column. Generate a summary table or visualization to show the missing values

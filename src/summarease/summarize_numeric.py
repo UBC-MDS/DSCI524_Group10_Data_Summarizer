@@ -51,7 +51,8 @@ def plot_correlation_heatmap(dataset_numeric):
 
     return heatmap
 
-def summarize_numeric(dataset: pd.DataFrame, summarize_by: str = "table"):
+def summarize_numeric(dataset, summarize_by="table"):
+
     """
     Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, 
     standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap 
@@ -70,7 +71,7 @@ def summarize_numeric(dataset: pd.DataFrame, summarize_by: str = "table"):
 
     Returns:
     -------
-        None: Displays either a table of summary statistics or a plot (correlation heatmap), depending on the 
+        A table of summary statistics or a plot (correlation heatmap), depending on the 
               `summarize_by` argument.
 
     Notes:
@@ -91,6 +92,7 @@ def summarize_numeric(dataset: pd.DataFrame, summarize_by: str = "table"):
 
     assert summarize_by in {"table", "plot"}, f"Argument 'summarize_by' should be one of the following options: [table, plot]! You have {summarize_by}."
 
+    
     numeric_columns = dataset.select_dtypes(include='number').columns
 
     if numeric_columns.empty:  # Check if there are no numeric columns

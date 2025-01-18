@@ -1,3 +1,7 @@
+import pandas as pd
+import altair as alt
+import warnings
+
 def summarize_target_df(dataset_name: pd.DataFrame, target_variable: str, 
                      target_type: str, threshold=0.2):
     """Summarize and evaluate the target variable for categarical or numerical types.
@@ -163,7 +167,6 @@ def summarize_target_balance_plot(summary_df: pd.DataFrame):
         y=alt.Y('expected_upper:Q')  
     )
 
-    # Combine all charts
     balance_chart = (actual_dist + error_bar + lower_ticks + upper_ticks).properties(
         width=600,
         height=400,

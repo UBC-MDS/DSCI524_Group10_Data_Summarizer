@@ -34,7 +34,8 @@ def test_categorical_missing_column():
 
 def test_numerical_descriptive_statistics():
     data = pd.DataFrame({"target": [1, 2, 3, 4, 5]})
-    result = summarize_target_df(data, "target", "numerical")
+    with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
+        result = summarize_target_df(data, "target", "numerical", threshold=0.5)
     assert result.loc["target", "mean"] == 3
     assert result.loc["target", "std"] == pytest.approx(1.5811, 0.0001)
 
@@ -48,10 +49,10 @@ def test_categorical_equal_proportions():
     result = summarize_target_df(data, "target", "categorical", threshold=0.2)
     assert result["imbalanced"].tolist() == [False, False, False]
 
-
 def test_numerical_identical_values():
     data = pd.DataFrame({"target": [5, 5, 5, 5, 5]})
-    result = summarize_target_df(data, "target", "numerical")
+    with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
+        result = summarize_target_df(data, "target", "numerical", threshold=0.5)
     assert result.loc["target", "std"] == 0
 
 def test_numerical_empty_dataset():
@@ -71,7 +72,8 @@ def test_numerical_with_threshold_warning():
 
 def test_numerical_large_range():
     data = pd.DataFrame({"target": [1e8, 2e8, 3e8, 4e8, 5e8]})
-    result = summarize_target_df(data, "target", "numerical")
+    with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
+        result = summarize_target_df(data, "target", "numerical", threshold=0.5)
     assert not result.empty
 
 def test_invalid_threshold():
@@ -80,3 +82,9 @@ def test_invalid_threshold():
         summarize_target_df(data, "target", "categorical", threshold=-0.1)
     with pytest.raises(ValueError):
         summarize_target_df(data, "target", "categorical", threshold=1.5)
+
+def test_numerical_without_threshold():
+    data = pd.DataFrame({"target": [1, 2, 3, 4, 5]})
+    summarize_target_df(data, "target", "numerical", threshold=None)
+
+

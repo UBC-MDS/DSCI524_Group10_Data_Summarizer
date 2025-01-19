@@ -2,6 +2,26 @@ import pandas as pd
 import altair as alt
 
 def plot_numeric_density(dataset_numeric):
+    """
+    Generate density plots for each numeric column in the provided dataset. Each plot represents the 
+    distribution of values in a numeric column using a density estimate.
+
+    Parameters:
+    ----------
+    dataset_numeric : pd.DataFrame
+        A pandas DataFrame containing numeric columns. The function will generate a density plot for 
+        each numeric column in the dataset.
+
+    Returns:
+    -------
+    alt.Chart
+        An Altair chart object representing a vertical concatenation of density plots for each numeric column. 
+        The plots are grouped into rows with a maximum of 4 plots per row.
+
+    Example:
+    -------
+    >>> plot_numeric_density(dataset_numeric=df)
+    """
     assert isinstance(dataset_numeric, pd.DataFrame), f"Argument 'dataset_numeric' should be pandas dataframe (pd.DataFrame)! You have {type(dataset_numeric)}."
 
     plots = []
@@ -31,15 +51,36 @@ def plot_numeric_density(dataset_numeric):
 
 
 def plot_correlation_heatmap(dataset_numeric):
-    assert isinstance(dataset_numeric, pd.DataFrame), f"Argument 'dataset_numeric' should be pandas dataframe (pd.DataFrame)! You have {type(dataset_numeric)}."
-    # Calculate the correlations
-    corr = dataset_numeric.corr()
+     """
+    Generate and save a correlation heatmap for the specified numeric columns in a dataset.
 
-    # Melt the correlation matrix into long-form
-    corr_melted = corr.reset_index().melt(id_vars='index')
-    corr_melted.columns = ['Var1', 'Var2', 'Correlation']
+    Parameters:
+    ----------
+    dataset : pd.DataFrame
+        The input dataset containing the data for the heatmap.
     
-    heatmap = alt.Chart(corr_melted).mark_rect().encode(
+    numeric_columns : list of str, optional
+        A list of column names to include in the correlation heatmap. If None, all numeric columns in the dataset will be used.
+    
+    save_path : str, optional
+        File path to save the generated heatmap. If None, the plot will not be saved.
+
+    Returns:
+    -------
+    None
+        Displays the correlation heatmap or optionally saves it to the specified location.
+
+    Example:
+    -------
+    >>> plot_correlation_heatmap(dataset=df, numeric_columns=["col1", "col2", "col3"], save_path="heatmap.png")
+    """
+     assert isinstance(dataset_numeric, pd.DataFrame), f"Argument 'dataset_numeric' should be pandas dataframe (pd.DataFrame)! You have {type(dataset_numeric)}."
+     # Calculate the correlations
+     corr = dataset_numeric.corr() 
+     # Melt the correlation matrix into long-form
+     corr_melted = corr.reset_index().melt(id_vars='index')
+     corr_melted.columns = ['Var1', 'Var2', 'Correlation']
+     heatmap = alt.Chart(corr_melted).mark_rect().encode(
         x='Var1:N',
         y='Var2:N',
         color='Correlation:Q',
@@ -48,8 +89,7 @@ def plot_correlation_heatmap(dataset_numeric):
         width=400,
         height=400
     )
-
-    return heatmap
+     return heatmap
 
 def summarize_numeric(dataset, summarize_by="table"):
 

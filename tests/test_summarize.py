@@ -5,9 +5,7 @@ from unittest.mock import patch
 import pandas as pd
 import shutil
 from fpdf import FPDF
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../src/summarease'))
-from summarize import summarize, validate_or_create_path, add_image, add_table, switch_page_if_needed
+from summarease.summarize import summarize, validate_or_create_path, add_image, add_table, switch_page_if_needed
 from unittest.mock import MagicMock
 import time
 

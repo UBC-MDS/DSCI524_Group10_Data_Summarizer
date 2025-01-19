@@ -1,10 +1,9 @@
 import pandas as pd
 from fpdf import FPDF
-import fpdf
 from pathlib import Path
-from summarize_numeric import summarize_numeric
-from summarize_target import summarize_target_df, summarize_target_balance_plot
-from summarize_dtypes import summarize_dtypes_table
+from summarease.summarize_numeric import summarize_numeric
+from summarease.summarize_target import summarize_target_df, summarize_target_balance_plot
+from summarease.summarize_dtypes import summarize_dtypes_table
 from PIL import Image
 
 
@@ -100,16 +99,13 @@ def add_image(pdf, image_path, pdf_height, pdf_width, element_padding=15):
                 else:
                     scale_factor = 1
     if y_position + element_height_mm > page_height:
-        print("Switching page before plotting", image_path_str)
         pdf.add_page()
 
-    print("Y position before adding an image", pdf.get_y())
     pdf.ln(pdf.get_y()) 
     y_position = pdf.get_y()
     # Add the image to the PDF
     pdf.image(image_path_str, x=pdf.l_margin, y=y_position + element_padding, w=int(scale_factor*(pdf_width - 2 * pdf.l_margin))) 
     pdf.ln(element_height_mm + element_padding) 
-    print("Y position after adding an image", pdf.get_y())
 
     # Manually update y_position after adding the image
     y_position = pdf.get_y()
@@ -208,7 +204,6 @@ def switch_page_if_needed(pdf):
     assert isinstance(pdf, FPDF), f"Argument 'pdf' should be FPDF class. You have {pdf}"
     if pdf.get_y() > 50:
         pdf.add_page()
-        print("New page created before the header.")
     return pdf
 
 def summarize(dataset: pd.DataFrame,
@@ -366,11 +361,6 @@ def summarize(dataset: pd.DataFrame,
     pdf.set_font("Helvetica", size=13)
     pdf.cell(page_width - 2 * pdf.l_margin, element_padding, txt="Numeric Columns Summary", ln=True, align='C')
 
-    numeric_description = "Here are numeric columns"
-
-    pdf.set_font("Helvetica", size=11)
-    pdf.multi_cell(page_width - 2 * pdf.l_margin, text_line_padding, txt=numeric_description, align='L')
-
     if summarize_by == "plot":
         summarized_numeric_output = summarize_numeric(dataset, summarize_by="plot")
         if summarized_numeric_output:
@@ -413,5 +403,5 @@ def summarize(dataset: pd.DataFrame,
 
     pdf.output(output_path)
     assert output_path.exists(), "Something went wrong... The PDF output was not saved."
-    print("PDF created with FPDF!")
+    print("PDF created!")
 

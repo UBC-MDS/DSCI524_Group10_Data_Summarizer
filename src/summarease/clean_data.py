@@ -1,4 +1,4 @@
-def clean_data(dataset: pd.Dataframe, replace_values: list = None, 
+def clean_data(dataset: pd.DataFrame, replace_values: list = None, 
               drop_duplicates: bool = True, standardize_columns: bool = True):
     """Clean the input dataset by standardizing column names, replacing invalid values, 
     and ensuring proper data types.

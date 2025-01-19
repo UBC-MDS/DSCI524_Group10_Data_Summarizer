@@ -8,6 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fpdf = "^1.7.2"
 
 [tool.semantic_release]
 version_toml = [

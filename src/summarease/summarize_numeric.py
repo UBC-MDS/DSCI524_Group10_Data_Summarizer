@@ -1,7 +1,7 @@
 import pandas as pd
 import altair as alt
 
-def plot_numeric_density(dataset_numeric):
+def plot_numeric_density(dataset_numeric: pd.DataFrame):
     """
     Generate density plots for each numeric column in the provided dataset. Each plot represents the 
     distribution of values in a numeric column using a density estimate.
@@ -49,9 +49,8 @@ def plot_numeric_density(dataset_numeric):
     
     return final_plot
 
-
-def plot_correlation_heatmap(dataset_numeric):
-     """
+def plot_correlation_heatmap(dataset_numeric: pd.DataFrame):
+    """
     Generate and save a correlation heatmap for the specified numeric columns in a dataset.
 
     Parameters:
@@ -74,13 +73,13 @@ def plot_correlation_heatmap(dataset_numeric):
     -------
     >>> plot_correlation_heatmap(dataset=df, numeric_columns=["col1", "col2", "col3"], save_path="heatmap.png")
     """
-     assert isinstance(dataset_numeric, pd.DataFrame), f"Argument 'dataset_numeric' should be pandas dataframe (pd.DataFrame)! You have {type(dataset_numeric)}."
-     # Calculate the correlations
-     corr = dataset_numeric.corr() 
-     # Melt the correlation matrix into long-form
-     corr_melted = corr.reset_index().melt(id_vars='index')
-     corr_melted.columns = ['Var1', 'Var2', 'Correlation']
-     heatmap = alt.Chart(corr_melted).mark_rect().encode(
+    assert isinstance(dataset_numeric, pd.DataFrame), f"Argument 'dataset_numeric' should be pandas dataframe (pd.DataFrame)! You have {type(dataset_numeric)}."
+    # Calculate the correlations
+    corr = dataset_numeric.corr() 
+    # Melt the correlation matrix into long-form
+    corr_melted = corr.reset_index().melt(id_vars='index')
+    corr_melted.columns = ['Var1', 'Var2', 'Correlation']
+    heatmap = alt.Chart(corr_melted).mark_rect().encode(
         x='Var1:N',
         y='Var2:N',
         color='Correlation:Q',
@@ -89,10 +88,9 @@ def plot_correlation_heatmap(dataset_numeric):
         width=400,
         height=400
     )
-     return heatmap
+    return heatmap
 
-def summarize_numeric(dataset, summarize_by="table"):
-
+def summarize_numeric(dataset: pd.DataFrame, summarize_by: str = "table"):
     """
     Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, 
     standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap 

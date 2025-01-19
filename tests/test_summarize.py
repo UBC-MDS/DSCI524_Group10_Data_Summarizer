@@ -7,7 +7,7 @@ import shutil
 from fpdf import FPDF
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src/summarease'))
-from summarize import summarize, validate_or_create_path, add_image, add_table
+from summarize import summarize, validate_or_create_path, add_image, add_table, switch_page_if_needed
 from unittest.mock import MagicMock
 import time
 
@@ -186,11 +186,11 @@ def mock_image_open(image_path):
 
     # Simulate different image sizes based on file names
     if "large" in Path(image_path).name:
-        return MockImage(2000, 3000)  # Large image dimensions
+        return MockImage(2000, 3000)  
     elif "small" in Path(image_path).name:
-        return MockImage(200, 300)    # Small image dimensions
+        return MockImage(200, 300)    
     else:
-        return MockImage(800, 600)    # Normal image dimensions
+        return MockImage(800, 600)   
     
 
 def test_create_images():
@@ -210,7 +210,7 @@ def test_create_images():
 # Test for adding large image
 @patch("PIL.Image.open", side_effect=mock_image_open)
 @patch("os.path.exists", return_value=True)
-@patch("pathlib.Path.is_file", return_value=True)  # Change this line
+@patch("pathlib.Path.is_file", return_value=True)  
 def test_add_image_large(mock_isfile, mock_exists, mock_open):
     pdf = FPDF()
     pdf.add_page()
@@ -225,7 +225,7 @@ def test_add_image_large(mock_isfile, mock_exists, mock_open):
 # Similarly update other tests:
 @patch("PIL.Image.open", side_effect=mock_image_open)
 @patch("os.path.exists", return_value=True)
-@patch("pathlib.Path.is_file", return_value=True)  # Change this line
+@patch("pathlib.Path.is_file", return_value=True)  
 def test_add_image_small(mock_isfile, mock_exists, mock_open):
     pdf = FPDF()
     pdf.add_page()
@@ -239,7 +239,7 @@ def test_add_image_small(mock_isfile, mock_exists, mock_open):
 
 @patch("PIL.Image.open", side_effect=mock_image_open)
 @patch("os.path.exists", return_value=True)
-@patch("pathlib.Path.is_file", return_value=True)  # Change this line
+@patch("pathlib.Path.is_file", return_value=True)  
 def test_add_image_normal(mock_isfile, mock_exists, mock_open):
     pdf = FPDF()
     pdf.add_page()
@@ -256,7 +256,7 @@ def test_invalid_pdf_height_type():
     pdf = FPDF()
     pdf.add_page()
     image_path = Path("valid_image.jpg")
-    pdf_height = "invalid_height"  # Invalid type for height
+    pdf_height = "invalid_height"  
     pdf_width = 210
     element_padding = 15
 
@@ -269,7 +269,7 @@ def test_invalid_pdf_width_type():
     pdf.add_page()
     image_path = Path("valid_image.jpg")
     pdf_height = 297
-    pdf_width = "invalid_width"  # Invalid type for width
+    pdf_width = "invalid_width"  
     element_padding = 15
 
     with pytest.raises(AssertionError, match="Argument 'pdf_width' should be an integer or float. You have"):
@@ -279,7 +279,7 @@ def test_invalid_pdf_width_type():
 def test_invalid_image_path_type():
     pdf = FPDF()
     pdf.add_page()
-    image_path = 12345  # Invalid type (should be Path or string)
+    image_path = 12345  
     pdf_height = 297
     pdf_width = 210
     element_padding = 15
@@ -289,7 +289,7 @@ def test_invalid_image_path_type():
 
 # Test for invalid PDF type
 def test_invalid_pdf_type():
-    pdf = "not_a_pdf_object"  # Invalid PDF object
+    pdf = "not_a_pdf_object"  
     image_path = Path("valid_image.jpg")
     pdf_height = 297
     pdf_width = 210
@@ -393,7 +393,7 @@ def test_relative_path():
     shutil.rmtree(test_path.parent)
 
 def test_root_level_path():
-    test_path = Path("/tmp/test.txt")  # Root level directory
+    test_path = Path("/tmp/test.txt")  
     
     # Run the function
     validate_or_create_path(test_path)
@@ -407,7 +407,37 @@ def test_root_level_path():
 def test_invalid_path():
     # Test when path is not a Path object
     try:
-        validate_or_create_path("not_a_path")  # String instead of Path
+        validate_or_create_path("not_a_path")  
         assert False, "Expected TypeError for non-Path object"
     except TypeError:
         pass
+
+
+def test_no_page_added_if_get_y_below_threshold():
+    # Create a mock FPDF instance
+    pdf = MagicMock(spec=FPDF)
+    pdf.get_y.return_value = 40  # Y-coordinate is less than 50, so no page should be added
+
+    result = switch_page_if_needed(pdf)
+
+    # Ensure add_page was not called
+    pdf.add_page.assert_not_called()
+    assert result is pdf  # Ensure pdf is returned unchanged
+
+def test_page_added_if_get_y_above_threshold():
+    # Create a mock FPDF instance
+    pdf = MagicMock(spec=FPDF)
+    pdf.get_y.return_value = 60  # Y-coordinate is greater than 50, so a page should be added
+
+    result = switch_page_if_needed(pdf)
+
+    # Ensure add_page was called once
+    pdf.add_page.assert_called_once()
+    assert result is pdf  # Ensure pdf is returned unchanged
+
+def test_invalid_pdf_argument():
+    with pytest.raises(AssertionError):
+        switch_page_if_needed("not_a_pdf_object")
+
+    with pytest.raises(AssertionError):
+        switch_page_if_needed(None)

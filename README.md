@@ -6,32 +6,17 @@ Summarease is a package designed to provide quick insights into a dataset by sum
 
 ## Package Features
 
-- `clean_data`:  
-  Clean the input dataset by standardizing column names, replacing invalid values, and ensuring proper data types.
-
 - `summarize_dtypes`:  
   Summarize the data types in the dataset.
 
-- `summarize_missing_values`:  
-  Summarize the missing values in the dataset, providing information on the number and percentage of missing values for each column. Generate a summary table or visualization to show the missing values based on the user's choice.
-
-- `summarize_outliers`:  
-  Check and summarize the outliers by Z-scores in specified numeric columns of a table. Generate a summary table or visualization based on the user's choice.
-
 - `summarize_target`:  
-  Summarize and evaluate the target variable for categorical or numerical types. Generate a summary table or visualization based on the target's type.
-
-- `summarize_categorical`:  
-  Summarize the categorical variables in the dataset by providing the number of unique categories for each categorical column. If any categorical columns have too many unique categories, a warning is issued.
+  Summarize and evaluate the target variable for categorical or numerical types. Generate a summary or proportion table for numerical or categorical target. Generate a visualization for categorical balance check.
 
 - `summarize_numeric`:  
-  Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap to visualize the relationships between numeric variables. Generate a summary table or visualization based on the user's choice.
-
-- `plot_correlation_heatmap`:  
-  Generate and save a correlation heatmap for the specified numeric columns in a dataset.
+  Summarize the numeric variables in the dataset by providing the summary statistics (e.g., mean, standard deviation, min, max, etc.) for each numeric column or plotting the correlation heatmap to visualize the relationships between numeric variables. Generate density plots for each numeric column in the provided dataset. Generate a correlation heatmap for the specified numeric columns in a dataset.
 
 - `summarize`:  
-  Summarize the given dataset by generating various statistics, visualizations, and/or tables based on the provided options.
+  Summarize generates a comprehensive PDF report for a dataset, including statistical summaries, visualizations, and target variable analysis. It supports customizable options like sample observations, automatic data cleaning, and flexible summarization methods (tables, plots, or both). Perfect for automating exploratory data analysis (EDA).
 
 ## Fit Within Python Ecosystem
 
@@ -51,18 +36,11 @@ $ pip install summarease
 ## Usage
 
 ```python
-from summarease.clean_data import clean_data
-from summarease.summarize_dtypes import summarize_dtypes
-from summarease.summarize_missing_values import summarize_missing_values
-from summarease.summarize_outliers import summarize_outliers
-from summarease.summarize_target import summarize_target
-from summarease.summarize_categorical import summarize_categorical
-from summarease.summarize_numeric import summarize_numeric
-from summarease.plot_correlation_heatmap import plot_correlation_heatmap
-from summarease.summarize import summarize
-import matplotlib.pyplot as plt
+from summarease.summarize_dtypes import summarize_dtypes_table
+from summarease.summarize_numeric import summarize_numeric, plot_numeric_density, plot_correlation_heatmap
+from summarease.summarize_target import summarize_target_df, summarize_target_balance_plot
+from summarease.summarize import summarize, validate_or_create_path, add_image, add_table, switch_page_if_needed
 
-TODO
 ```
 
 ## Contributing

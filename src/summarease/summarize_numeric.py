@@ -39,6 +39,10 @@ def plot_correlation_heatmap(dataset_numeric):
     corr_melted = corr.reset_index().melt(id_vars='index')
     corr_melted.columns = ['Var1', 'Var2', 'Correlation']
     
+    # Round the correlation values to 2 decimal places
+    corr_melted['Correlation'] = corr_melted['Correlation'].round(2)
+    
+    # Create the heatmap with correlation values
     heatmap = alt.Chart(corr_melted).mark_rect().encode(
         x='Var1:N',
         y='Var2:N',
@@ -49,7 +53,15 @@ def plot_correlation_heatmap(dataset_numeric):
         height=400
     )
 
-    return heatmap
+    # Add correlation value labels on the heatmap cells
+    text = alt.Chart(corr_melted).mark_text(dy=-5).encode(
+        x='Var1:N',
+        y='Var2:N',
+        text='Correlation:Q'
+    )
+
+    # Overlay the text on top of the heatmap
+    return heatmap + text
 
 def summarize_numeric(dataset, summarize_by="table"):
 
@@ -91,31 +103,22 @@ def summarize_numeric(dataset, summarize_by="table"):
     summarize_by = summarize_by.lower()
 
     assert summarize_by in {"table", "plot"}, f"Argument 'summarize_by' should be one of the following options: [table, plot]! You have {summarize_by}."
-
     
-    numeric_columns = dataset.select_dtypes(include='number').columns
+    # Select the numeric columns from the dataset
+    dataset_numeric = dataset.select_dtypes(include=['number'])
 
-    if numeric_columns.empty:  # Check if there are no numeric columns
-        print("No numeric columns found in the dataset.")
+    if dataset_numeric.empty:
         return
-    
+
     outputs = {}
 
-    if summarize_by == "table":
-        # Generate summary statistics for numeric columns
-        summary = dataset[numeric_columns].describe()
-        print(summary)
-
-    elif summarize_by == "plot":
-        # Generate a correlation heatmap for numeric columns
-        if len(dataset) < 2:
-            print("Insufficient data for meaningful plots.")
-            return {}
-
-        numeric_data = dataset[numeric_columns]
-        outputs["numeric_plot"] = plot_numeric_density(numeric_data)
+    if (summarize_by == "plot"):
+        outputs["numeric_plot"] = plot_numeric_density(dataset_numeric)
         
-        if len(numeric_columns) > 1:
-            outputs["corr_plot"] = plot_correlation_heatmap(numeric_data)
+        if (dataset_numeric.shape[1] > 1):
+            outputs["corr_plot"] = plot_correlation_heatmap(dataset_numeric)
 
+    elif (summarize_by == "table"):
+        outputs["numeric_describe"] = dataset_numeric.describe()
+        
     return outputs

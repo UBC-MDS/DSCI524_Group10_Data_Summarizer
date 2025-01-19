@@ -3,7 +3,8 @@ from fpdf import FPDF
 import fpdf
 from pathlib import Path
 from summarize_numeric import summarize_numeric
-from summarize_target import summarize_target_df
+from summarize_target import summarize_target_df, summarize_target_balance_plot
+from summarize_dtypes import summarize_dtypes_table
 from PIL import Image
 
 
@@ -204,8 +205,10 @@ def add_table(pdf, table, pdf_height, pdf_width, element_padding=15):
     return pdf
 
 def switch_page_if_needed(pdf):
-    if pdf.get_y() > 30:
+    assert isinstance(pdf, FPDF), f"Argument 'pdf' should be FPDF class. You have {pdf}"
+    if pdf.get_y() > 50:
         pdf.add_page()
+        print("New page created before the header.")
     return pdf
 
 def summarize(dataset: pd.DataFrame,
@@ -348,7 +351,7 @@ def summarize(dataset: pd.DataFrame,
     page_width = pdf.w
     page_height = pdf.h
 
-    element_padding = 15
+    element_padding = 10
     text_line_padding = 10
 
     # Set the font to Helvetica, set the size, write the title
@@ -370,15 +373,30 @@ def summarize(dataset: pd.DataFrame,
 
     if summarize_by == "plot":
         summarized_numeric_output = summarize_numeric(dataset, summarize_by="plot")
-        for key, item in summarized_numeric_output.items():
-            plot_file = plot_output_path / f'{key}.png'
-            str_plot_file = str(plot_file)
-            item.save(plot_file)
-            pdf = add_image(pdf, image_path=str_plot_file, pdf_height=page_height, pdf_width=page_width, element_padding=15)
+        if summarized_numeric_output:
+            for key, item in summarized_numeric_output.items():
+                plot_file = plot_output_path / f'{key}.png'
+                str_plot_file = str(plot_file)
+                item.save(plot_file)
+                pdf = add_image(pdf, image_path=str_plot_file, pdf_height=page_height, pdf_width=page_width, element_padding=10)
+
+        if target_variable is not None:
+            pdf = switch_page_if_needed(pdf)
+            pdf.set_font("Helvetica", size=13)
+            pdf.cell(page_width - 2 * pdf.l_margin, element_padding, txt="Target Variable Summary", ln=True, align='C')
+            pdf.set_font("Helvetica", size=11)
+            pdf.multi_cell(page_width - 2 * pdf.l_margin, text_line_padding, txt=f"Target variable is a {target_type} variable. Please find the information about the target variable below:", align='L')
+            summarized_target_output = summarize_target_df(dataset, target_variable, target_type)
+            summarized_target_plot = summarize_target_balance_plot(summarized_target_output)
+            target_plot_file = plot_output_path / "target_plot.png"
+            summarized_target_plot.save(target_plot_file)
+            pdf = add_image(pdf, target_plot_file, pdf_height=page_height, pdf_width=page_width, element_padding=0)
 
     elif summarize_by == "table":
         summarized_numeric_output = summarize_numeric(dataset, summarize_by="table")
-        pdf = add_table(pdf, table = summarized_numeric_output["numeric_describe"], pdf_height=page_height, pdf_width=page_width, element_padding=15)
+        if summarized_numeric_output:
+            pdf = add_table(pdf, table = summarized_numeric_output["numeric_describe"], pdf_height=page_height, pdf_width=page_width, element_padding=15)
+
         if target_variable is not None:
             pdf = switch_page_if_needed(pdf)
             summarized_target_output = summarize_target_df(dataset, target_variable, target_type)
@@ -388,7 +406,10 @@ def summarize(dataset: pd.DataFrame,
             pdf.multi_cell(page_width - 2 * pdf.l_margin, text_line_padding, txt=f"Target variable is a {target_type} variable. Please find the information about the target variable below:", align='L')
             pdf = add_table(pdf, table = summarized_target_output, pdf_height=page_height, pdf_width=page_width, element_padding=15)
 
-    
+    summarized_dtypes_table = summarize_dtypes_table(dataset)
+    pdf.set_font("Helvetica", size=13)
+    pdf.cell(page_width - 2 * pdf.l_margin, element_padding, txt="Dataset Data Types Summary", ln=True, align='C')
+    pdf = add_table(pdf, table = summarized_dtypes_table, pdf_height=page_height, pdf_width=page_width, element_padding=15)
 
     pdf.output(output_path)
     assert output_path.exists(), "Something went wrong... The PDF output was not saved."

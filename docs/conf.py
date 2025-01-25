@@ -34,3 +34,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # a list of builtin themes.
 #
 html_theme = "sphinx_material"
+
+html_theme_options = {
+    "nav_title": " ",  
+    "base_url": "",  
+    "color_primary": "blue-grey",
+    "color_accent": "cyan",
+    "repo_url": "https://github.com/UBC-MDS/summarease",  
+    "repo_name": "summarease",
+    "repo_type": "github",
+    "globaltoc_depth": 2,  
+    "globaltoc_collapse": True,
+    "globaltoc_includehidden": True,
+}
+html_title = "Summarease Documentation"
+html_sidebars = {
+    "**": ["globaltoc.html", "searchbox.html"],
+}

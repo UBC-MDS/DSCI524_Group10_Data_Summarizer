@@ -45,9 +45,9 @@ html_theme_options = {
     "repo_type": "github",
     "globaltoc_depth": 2,  
     "globaltoc_collapse": True,
-    "globaltoc_includehidden": True,
+    "globaltoc_includehidden": True
 }
 html_title = "Summarease Documentation"
 html_sidebars = {
-    "**": ["globaltoc.html", "searchbox.html"],
+    "**": ["globaltoc.html", "localtoc.html", "searchbox.html", "sourcelink.html"],
 }

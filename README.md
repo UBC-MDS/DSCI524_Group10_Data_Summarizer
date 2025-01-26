@@ -32,6 +32,10 @@ dtale: https://github.com/man-group/dtale
 ```bash
 $ pip install summarease
 ```
+To install the development version from git, use:
+```bash
+$ pip install git+https://github.com/UBC-MDS/summarease.git
+```
 
 ## Usage
 

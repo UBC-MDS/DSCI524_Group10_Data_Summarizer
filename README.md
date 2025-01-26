@@ -1,5 +1,7 @@
 # summarease
 
+[![Documentation Status](https://readthedocs.org/projects/summarease/badge/?version=latest)](https://summarease.readthedocs.io/en/latest/)
+
 ## Project Summary
 
 Summarease is a package designed to provide quick insights into a dataset by summarizing its key features. It offers functions that help users understand the structure of the data, making it easier to plan data cleaning and exploratory data analysis (EDA) tasks.
@@ -23,9 +25,9 @@ Summarease is a package designed to provide quick insights into a dataset by sum
 Summarease is a lightweight and compact Python package designed for efficiency and ease of use. Despite its simplicity, it offers users great flexibility to customize the output format, whether through detailed tables or insightful visualizations.
 
 Related packages with similar functionalities:  
-sweetviz: https://github.com/fbdesignpro/sweetviz  
-ydata-profiling: https://github.com/ydataai/ydata-profiling  
-dtale: https://github.com/man-group/dtale  
+1. [sweetviz](https://github.com/fbdesignpro/sweetviz)  
+2. [ydata-profiling](https://github.com/ydataai/ydata-profiling)
+3. [dtale](https://github.com/man-group/dtale)  
 
 ## Installation
 
@@ -39,13 +41,55 @@ $ pip install git+https://github.com/UBC-MDS/summarease.git
 
 ## Usage
 
-```python
-from summarease.summarize_dtypes import summarize_dtypes_table
-from summarease.summarize_numeric import summarize_numeric, plot_numeric_density, plot_correlation_heatmap
-from summarease.summarize_target import summarize_target_df, summarize_target_balance_plot
-from summarease.summarize import summarize, validate_or_create_path, add_image, add_table, switch_page_if_needed
+First, import the `summarize` function from `summarease.summarize` module.
 
+```python
+from summarease.summarize import summarize
 ```
+
+Next depending on the way you want summarize your datasets (whether using tables or plots) you can run the following commands:
+
+#### For generating a report using plots:
+
+The below code will generate a report that contains dominantly plots describing the numeric columns, target variable, correlation heatmap and a table summarizing the data types included in the data.
+
+```python
+summarize(
+    dataset=iris_df, 
+    dataset_name="Iris Dataset Summary", 
+    description="Iris Dataset can be found on the UCI Machine Learning Repository",
+    summarize_by="plot",
+    target_variable="target",
+    target_type="categorical",
+    output_file="iris_summary.pdf",
+    output_dir="./dataset_summary/"
+)
+```
+
+#### For generating a report using tables:
+
+The below code will generate a report that contains tables describing the numeric columns, target variable and data types.
+
+```python
+summarize(
+    dataset=iris_df, 
+    dataset_name="Iris Dataset Summary", 
+    description="Iris Dataset can be found on the UCI Machine Learning Repository",
+    summarize_by="table",
+    target_variable="target",
+    target_type="categorical",
+    output_file="iris_summary.pdf",
+    output_dir="./dataset_summary/"
+)
+```
+
+To get in-depth idea of the function you can always run the following code:
+
+```python
+help(summarize)
+```
+
+If you find an error or inconsistency, please refer to the **Contributing** header.
 
 ## Contributing
 

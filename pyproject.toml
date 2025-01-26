@@ -14,10 +14,10 @@ pandas = "^2.2.3"
 numpy = "^2.2.2"
 altair = "^5.5.0"
 pillow = "^11.1.0"
-vl-convert-python = "^1.7.0"
+sphinx-material = "^0.0.36"
 
 [tool.poetry.group.dev.dependencies]
-myst-nb = "^1.1.2"
+myst-nb = {version = "^1.1.2", python = "^3.11"}
 sphinx-autoapi = "^3.4.0"
 sphinx-rtd-theme = "^3.0.2"
 

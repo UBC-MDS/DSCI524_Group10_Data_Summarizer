@@ -1,6 +1,6 @@
 # summarease
 
-[![Documentation Status](https://readthedocs.org/projects/passwordler/badge/?version=latest)](https://passwordler.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/summarease/badge/?version=latest)](https://summarease.readthedocs.io/en/latest/)
 
 ## Project Summary
 

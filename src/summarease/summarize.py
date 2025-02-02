@@ -31,13 +31,10 @@ def validate_or_create_path(path):
     if not isinstance(path, Path):
         raise TypeError(f"Expected a Path object, got {type(path)}.")
     
-    # Check if the parent directory exists, if not, create it
-    if path.is_file():
-        if not path.parent.exists():
-            path.parent.mkdir(parents=True, exist_ok=True)
-    else:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
+    # Check if the input is a file or not, if not, then check if the directory exists
+    if not path.is_file():
+        path.mkdir(parents=True, exist_ok=True)
+            
 
 
 def add_image(pdf, image_path, pdf_height, pdf_width, element_padding=15):
@@ -75,23 +72,18 @@ def add_image(pdf, image_path, pdf_height, pdf_width, element_padding=15):
     image_path = Path(image_path)
     assert image_path.suffix in image_extensions, f"Unsupported image format. Should be {image_extensions}"
     image_path_str = str(image_path)
-    y_position = pdf.get_y()  # Get initial y_position
+    y_position = pdf.get_y()  
     page_height = pdf_height - 2 * pdf.t_margin
 
     if not image_path.is_file():
         raise ValueError(f"File not found: {image_path_str}")
-    
-    # Check if the file has a valid image extension
-    if image_path.suffix.lower() not in image_extensions:
-        raise ValueError(f"Unsupported image format: {image_path.suffix.lower()}")
 
     if image_path.is_file():
         # Check if the file has a valid image extension
         if image_path.suffix.lower() in image_extensions:
             with Image.open(image_path_str) as img:
-                image_width, image_height = img.size
+                _, image_height = img.size
                 dpi = 96  
-                element_width_mm = image_width / dpi * 25.4 
                 element_height_mm = image_height / dpi * 25.4
 
                 if element_height_mm > page_height:
@@ -294,9 +286,7 @@ def summarize(dataset: pd.DataFrame,
     ...     dataset=data, 
     ...     dataset_name="Employee Data Summary", 
     ...     description="Summary of employee demographic and salary data.",
-    ...     show_observations="head", 
-    ...     show_n_observations=3, 
-    ...     summarize_by="mix",
+    ...     summarize_by="plot",
     ...     auto_cleaning=True,
     ...     output_file="employee_summary.pdf"
     ... )

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "summarease"
-version = "0.1.0"
+version = "1.1.0"
 description = "A package that provides quick summaries of datasets, including data types, missing value counts, and basic statistics."
 authors = ["Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong"]
 license = "MIT"
@@ -8,9 +8,18 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fpdf = "^1.7.2"
+pytest = "^8.3.4"
+pandas = "^2.2.3"
+numpy = "^2.2.2"
+altair = "^5.5.0"
+pillow = "^11.1.0"
+sphinx-material = "^0.0.36"
+scikit-learn = "^1.6.1"
+vl-convert-python = "^1.7.0"
 
 [tool.poetry.group.dev.dependencies]
-myst-nb = "^1.1.2"
+myst-nb = {version = "^1.1.2", python = "^3.11"}
 sphinx-autoapi = "^3.4.0"
 sphinx-rtd-theme = "^3.0.2"
 

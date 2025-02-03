@@ -66,10 +66,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          fetch-tags: true
           token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Fetch all tags
-        run: git fetch --tags
+        run: |
+          git fetch --tags --force
+          git fetch --prune --unshallow
         
       - name: Use Python Semantic Release to prepare release
         id: release

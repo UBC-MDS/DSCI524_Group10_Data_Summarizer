@@ -1,4 +1,11 @@
-# CHANGELOG
+# Changelog
+
+<!--next-version-placeholder-->
+## v1.0.0 (16/01/2025)
+
+- Second release of `summarease`!
 
 
-## v0.0.0 (2025-02-03)
+## v0.1.0 (09/01/2025)
+
+- First release of `summarease`!

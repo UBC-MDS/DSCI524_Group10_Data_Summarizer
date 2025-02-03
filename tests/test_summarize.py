@@ -9,6 +9,8 @@ from summarease.summarize import summarize, validate_or_create_path, add_image, 
 from unittest.mock import MagicMock
 import time
 
+# ---------------------------------------------
+# tests for summarize
 
 @pytest.fixture
 def mock_dataset():
@@ -45,6 +47,19 @@ def cleanup_files():
             except OSError:
                 shutil.rmtree(output_dir)
                 time.sleep(0.1)  
+
+def test_create_images():
+    # Define the image paths and their respective sizes
+    image_details = [
+        ("large_image.jpg", 2000, 3000),  
+        ("small_image.jpg", 200, 300),   
+        ("normal_image.jpg", 800, 600)    
+    ]
+
+    # Create and save each image
+    for image_path, width, height in image_details:
+        image = Image.new("RGB", (width, height), color=(255, 255, 255))  
+        image.save(image_path)
 
 def test_invalid_dataset_type(mock_dataset):
     with pytest.raises(AssertionError, match="Argument 'dataset' should be pandas dataframe"):
@@ -100,8 +115,7 @@ def test_valid_summarize_call(mock_dataset, cleanup_files):
         dataset=mock_dataset,
         dataset_name="Test Dataset",
         description="This is a test dataset.",
-        show_observations="head",
-        show_n_observations=3,
+        target_variable = "Gender",
         summarize_by="table",
         auto_cleaning=True,
         output_file="test_summary.pdf",
@@ -118,8 +132,29 @@ def test_invalid_target_variable(mock_dataset):
         summarize(dataset=mock_dataset, target_variable=123)
 
 
+# Check if the plot is created after the numeric analysis
+def test_check_if_image_is_saved(mock_dataset):
+    output_dir = "./summarease_summary_test/"
+    output_dir_path = Path(output_dir)
+    summarize(
+        dataset=mock_dataset,
+        dataset_name="Test Dataset",
+        description="This is a test dataset.",
+        target_variable = "Gender",
+        summarize_by="plot",
+        auto_cleaning=True,
+        output_file="test_summary.pdf",
+        output_dir=output_dir
+    )
+
+    assert (output_dir_path / "img" / "numeric_plot.png").exists()
+    assert (output_dir_path / "img" / "corr_plot.png").exists()
+
+
+
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Tests for add_table
 
 def test_add_table_normal():
     pdf = FPDF()
@@ -159,6 +194,18 @@ if __name__ == '__main__':
     pytest.main()
 
 
+def test_data_with_long_column_names():
+    pdf = FPDF()
+    pdf.add_page()
+    data = {
+        "very_long_column_name_that_should_be_truncated": list(range(0, 30)),
+        "very_long_column_name_that_should_be_truncated1": list(range(0, 30)),
+        "very_long_column_name_that_should_be_truncated2": list(range(0, 30)),
+        "very_long_column_name_that_should_be_truncated3": list(range(0, 30)),
+    }
+    table = pd.DataFrame(data)
+    result_pdf = add_table(pdf, table, 297, 210)
+    assert result_pdf is not None
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -189,20 +236,6 @@ def mock_image_open(image_path):
         return MockImage(200, 300)    
     else:
         return MockImage(800, 600)   
-    
-
-def test_create_images():
-    # Define the image paths and their respective sizes
-    image_details = [
-        ("large_image.jpg", 2000, 3000),  
-        ("small_image.jpg", 200, 300),   
-        ("normal_image.jpg", 800, 600)    
-    ]
-
-    # Create and save each image
-    for image_path, width, height in image_details:
-        image = Image.new("RGB", (width, height), color=(255, 255, 255))  
-        image.save(image_path)
 
 
 # Test for adding large image
@@ -296,6 +329,28 @@ def test_invalid_pdf_type():
     with pytest.raises(AssertionError, match="Argument 'pdf' should be FPDF class. You have"):
         add_image(pdf, image_path, pdf_height, pdf_width, element_padding)
 
+# Test for invalid element padding argument
+def test_invalid_element_padding():
+    pdf = FPDF()
+    image_path = Path("valid_image.jpg")
+    pdf_height = 297
+    pdf_width = 210
+    element_padding = 15.34
+
+    with pytest.raises(AssertionError, match="Argument 'element_padding' should be an integer. You have"):
+        add_image(pdf, image_path, pdf_height, pdf_width, element_padding)
+
+# Test for invalid element padding argument
+def test_invalid_image_extension():
+    pdf = FPDF()
+    image_path = Path("valid_image.csv")
+    pdf_height = 297
+    pdf_width = 210
+    element_padding = 15
+
+    with pytest.raises(AssertionError, match="Unsupported image format. Should be"):
+        add_image(pdf, image_path, pdf_height, pdf_width, element_padding)
+
 # Test for cleaning images (checking if files exist before deletion)
 def test_clean_images():
     small_image = Path("small_image.jpg")
@@ -306,12 +361,21 @@ def test_clean_images():
         if image_path.exists():
             image_path.unlink()
 
+# image doesn't exist
+def test_image_not_found():
+    pdf = FPDF()
+    pdf.add_page()
+    image_path = Path("valid_image.jpg")
+    pdf_height = 297
+    pdf_width = 210
+    element_padding = 15
+
+    with pytest.raises(ValueError, match="File not found: "):
+        add_image(pdf, image_path, pdf_height, pdf_width, element_padding)
         
 # --------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 # Tests for validate_or_create_path
+
 
 def test_create_parent_directory():
     test_path = Path("/tmp/non_existent_directory/test.txt")

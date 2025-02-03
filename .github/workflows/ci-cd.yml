@@ -21,9 +21,6 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Install package
-        run: poetry install --with dev
-
-      - name: Install package
         run: poetry install
 
       - name: Install ipykernel inside poetry env

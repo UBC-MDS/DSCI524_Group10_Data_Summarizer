@@ -68,6 +68,9 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.RELEASE_TOKEN }}
 
+      - name: Fetch all tags
+        run: git fetch --tags
+        
       - name: Use Python Semantic Release to prepare release
         id: release
         uses: python-semantic-release/python-semantic-release@v8.3.0

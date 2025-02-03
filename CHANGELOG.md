@@ -1,17 +1,11 @@
-# CHANGELOG
+# Changelog
+
+<!--next-version-placeholder-->
+## v1.0.0 (16/01/2025)
+
+- Second release of `summarease`!
 
 
-## v0.0.1 (2025-02-03)
+## v0.1.0 (09/01/2025)
 
-### Bug Fixes
-
-- Force semantic release
-  ([`8bc2637`](https://github.com/UBC-MDS/summarease/commit/8bc263797889d30a42f1f63e67dd9ebc61db077e))
-
-- Removed copy unshallow tags
-  ([`dcf6265`](https://github.com/UBC-MDS/summarease/commit/dcf6265d948d13c345986cdd92c9d90929786f42))
-
-### Chores
-
-- Trigger GitHub Actions workflow
-  ([`cdf027f`](https://github.com/UBC-MDS/summarease/commit/cdf027f36fa4ab08ad638f4ff3a2062b562203ee))
+- First release of `summarease`!

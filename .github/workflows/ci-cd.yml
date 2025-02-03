@@ -23,6 +23,9 @@ jobs:
       - name: Install package
         run: poetry install
 
+      - name: Install ipykernel inside poetry env
+        run: poetry run python -m ipykernel install --user --name="summarease"
+
       - name: Test with pytest
         run: poetry run pytest tests/ --cov=summarease --cov-report=xml
 
@@ -60,6 +63,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Use Python Semantic Release to prepare release
         id: release

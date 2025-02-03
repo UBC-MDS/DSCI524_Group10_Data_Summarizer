@@ -35,18 +35,27 @@ def test_categorical_default_threshold():
     assert (result["threshold"] == 0.2).all()
 
 def test_categorical_empty_dataset():
-
+    """
+    Tests if the function correctly handles an empty categorical dataset.
+    """
     data = pd.DataFrame({"target": []})
     result = summarize_target_df(data, "target", "categorical", threshold=0.2)
     assert result.empty
     assert "threshold" in result.columns
 
 def test_categorical_missing_column():
+    """
+    Tests if the function raises a KeyError when the specified target column is missing.
+    """
     data = pd.DataFrame({"other_column": [1, 2, 3]})
     with pytest.raises(KeyError):
         summarize_target_df(data, "target", "categorical")
 
 def test_numerical_descriptive_statistics():
+    """
+    Tests whether the function correctly computes descriptive 
+    statistics (mean and standard deviation) for a numerical target variable.
+    """
     data = pd.DataFrame({"target": [1, 2, 3, 4, 5]})
     with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
         result = summarize_target_df(data, "target", "numerical", threshold=0.5)
@@ -54,43 +63,74 @@ def test_numerical_descriptive_statistics():
     assert result.loc["target", "std"] == pytest.approx(1.5811, 0.0001)
 
 def test_categorical_extremely_imbalanced():
+    """
+    Tests if the function correctly identifies an extremely imbalanced 
+    categorical target variable where one class dominates (99 occurrences of "x" and 1 of "y").
+    """
     data = pd.DataFrame({"target": ["x"] * 99 + ["y"]})
     result = summarize_target_df(data, "target", "categorical", threshold=0.2)
     assert result["imbalanced"].tolist() == [True, True]
 
 def test_categorical_equal_proportions():
+    """
+    Tests if the function correctly determines that all classes 
+    are balanced when they have equal proportions.
+    """
     data = pd.DataFrame({"target": ["x", "y", "z"] * 10})
     result = summarize_target_df(data, "target", "categorical", threshold=0.2)
     assert result["imbalanced"].tolist() == [False, False, False]
 
 def test_numerical_identical_values():
+    """
+    Tests if the function correctly identifies a numerical target variable 
+    where all values are identical, resulting in a standard deviation of zero.
+    """
     data = pd.DataFrame({"target": [5, 5, 5, 5, 5]})
     with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
         result = summarize_target_df(data, "target", "numerical", threshold=0.5)
     assert result.loc["target", "std"] == 0
 
 def test_numerical_empty_dataset():
+    """
+    Tests if the function correctly handles an empty numerical dataset,
+    returning an empty DataFrame.
+    """
     data = pd.DataFrame({"target": []})
     result = summarize_target_df(data, "target", "numerical")
     assert result.empty
 
 def test_invalid_target_type():
+    """
+    Tests if the function raises a ValueError when an invalid target type is provided.
+    """
     data = pd.DataFrame({"target": [1, 2, 3]})
     with pytest.raises(ValueError):
         summarize_target_df(data, "target", "invalid_type")
 
 def test_numerical_with_threshold_warning():
+    """
+    Tests whether the function raises a warning when a threshold 
+    is provided for a numerical target variable.
+    """
     data = pd.DataFrame({"target": [1, 2, 3, 4, 5]})
     with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
         summarize_target_df(data, "target", "numerical", threshold=0.5)
 
 def test_numerical_large_range():
+    """
+    Tests if the function correctly handles a numerical target variable 
+    with a large range of values (1e8 to 5e8).
+    """
     data = pd.DataFrame({"target": [1e8, 2e8, 3e8, 4e8, 5e8]})
     with pytest.warns(UserWarning, match="Threshold is not used for numerical targets."):
         result = summarize_target_df(data, "target", "numerical", threshold=0.5)
     assert not result.empty
 
 def test_invalid_threshold():
+    """
+    Tests if the function raises a ValueError when an invalid threshold 
+    (negative or greater than 1) is provided.
+    """
     data = pd.DataFrame({"target": ["x", "x", "z", "x", "y", "z"]})
     with pytest.raises(ValueError):
         summarize_target_df(data, "target", "categorical", threshold=-0.1)
@@ -98,6 +138,10 @@ def test_invalid_threshold():
         summarize_target_df(data, "target", "categorical", threshold=1.5)
 
 def test_numerical_without_threshold():
+    """
+    Tests if the function correctly processes a numerical target variable 
+    when no threshold is provided.
+    """
     data = pd.DataFrame({"target": [1, 2, 3, 4, 5]})
     summarize_target_df(data, "target", "numerical", threshold=None)
 

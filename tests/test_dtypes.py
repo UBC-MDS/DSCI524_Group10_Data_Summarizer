@@ -8,6 +8,10 @@ from summarease.summarize_dtypes import summarize_dtypes_table
 
 
 def test_summarize_dtypes_table():
+    """
+    Test summarize_dtypes_table function with various DataFrame inputs.
+    """
+
     # Test Case 1: Standard input with multiple data types
     data = pd.DataFrame({
         'int_col': [1, 2, 3],

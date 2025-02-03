@@ -51,7 +51,7 @@ Next depending on the way you want summarize your datasets (whether using tables
 
 #### For generating a report using plots:
 
-The below code will generate a report that contains dominantly plots describing the numeric columns, target variable, correlation heatmap and a table summarizing the data types included in the data.
+The below code will generate a report that contains dominantly plots describing the numeric columns, target variable, correlation heatmap and a table summarizing the data types included in the data. It is intended as a reference to the syntax of our function. For more information, including a walkthrough on how to load the dataset, please see the [Example usage](https://summarease.readthedocs.io/en/latest/summarize.html#example-usage) section in the docs for the Summarize function. 
 
 ```python
 summarize(
@@ -103,7 +103,7 @@ Please note that this project is released with a Code of Conduct. By contributin
 
 ## Contributors
 
-`summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, and Zuer Zhong.
+`summarease` was created by [Hrayr Muradyan](https://github.com/HrayrMuradyan), [Yun Zhou](https://github.com/Green-zy), [Stephanie Wu](https://github.com/stephqwu), and [Zuer Zhong](https://github.com/zze1999).
 
 ## Credits
 

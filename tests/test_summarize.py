@@ -21,33 +21,6 @@ def mock_dataset():
         "Salary": [50000, 60000, 75000, 80000, 65000]
     })
 
-
-@pytest.fixture
-def cleanup_files():
-    # This fixture ensures cleanup of files and directories after each test
-    yield
-    
-    # Define the directories to clean up
-    dirs_to_cleanup = [
-        Path("./summarease_summary_test/"),
-        Path("./summarease_summary/")
-    ]
-    
-    for output_dir in dirs_to_cleanup:
-        if output_dir.exists() and output_dir.is_dir():
-            # Recursively remove all files in the directory
-            for file in output_dir.rglob('*'): 
-                try:
-                    file.unlink()  
-                except PermissionError:
-                    print(f"Permission error while deleting {file}")
-                    continue
-            try:
-                output_dir.rmdir()  
-            except OSError:
-                shutil.rmtree(output_dir)
-                time.sleep(0.1)  
-
 def test_create_images():
     # Define the image paths and their respective sizes
     image_details = [
@@ -83,7 +56,7 @@ def test_auto_cleaning_argument(mock_dataset):
     assert result is None
 
 
-def test_output_directory_creation(mock_dataset, cleanup_files):
+def test_output_directory_creation(mock_dataset):
     # Set a custom output directory and file name
     output_file = "test_output.pdf"
     output_dir = "./summarease_summary_test/"
@@ -109,7 +82,7 @@ def test_file_extension_validation(mock_dataset):
         summarize(dataset=mock_dataset, output_file="invalid_extension.txt")
 
 
-def test_valid_summarize_call(mock_dataset, cleanup_files):
+def test_valid_summarize_call(mock_dataset):
     # Valid call to summarize
     summarize(
         dataset=mock_dataset,
@@ -503,3 +476,29 @@ def test_invalid_pdf_argument():
 
     with pytest.raises(AssertionError):
         switch_page_if_needed(None)
+
+
+def test_cleanup_files():
+    # Define the directories to clean up
+    dirs_to_cleanup = [
+        Path("./summarease_summary_test/"),
+        Path("./summarease_summary/")
+    ]
+    
+    for output_dir in dirs_to_cleanup:
+        if output_dir.exists() and output_dir.is_dir():
+            # Recursively remove all files in the directory
+            for file in output_dir.rglob('*'): 
+                try:
+                    if file.is_file() or file.is_symlink():
+                        file.unlink()
+                    elif file.is_dir():
+                        shutil.rmtree(file) 
+                except PermissionError:
+                    print(f"Permission error while deleting {file}")
+                    continue
+            try:
+                output_dir.rmdir()  
+            except OSError:
+                shutil.rmtree(output_dir)
+                time.sleep(0.1)  

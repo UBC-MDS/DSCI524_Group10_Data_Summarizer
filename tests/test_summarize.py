@@ -47,16 +47,25 @@ def cleanup_files():
                 time.sleep(0.1)  
 
 def test_invalid_dataset_type(mock_dataset):
+    """
+    Tests if `summarize()` raises an AssertionError when `dataset` is not a pandas DataFrame.
+    """
     with pytest.raises(AssertionError, match="Argument 'dataset' should be pandas dataframe"):
         summarize(dataset="not_a_dataframe")
 
 
 def test_invalid_show_observations(mock_dataset):
+    """
+    Tests if `summarize()` raises an AssertionError when `show_observations` is an invalid option.
+    """
     with pytest.raises(AssertionError, match="Argument 'show_observations' should be one of the following options:"):
         summarize(dataset=mock_dataset, show_observations="invalid_option")
 
 
 def test_invalid_summarize_by(mock_dataset):
+    """
+    Tests if `summarize()` raises an AssertionError when `summarize_by` is not a valid option.
+    """
     with pytest.raises(AssertionError, match="Argument 'summarize_by' should be one of the following options:"):
         summarize(dataset=mock_dataset, summarize_by="invalid_option")
 
@@ -122,6 +131,9 @@ def test_invalid_target_variable(mock_dataset):
 
 
 def test_add_table_normal():
+    """
+    Tests if `add_table()` correctly adds a normal table with multiple rows and columns to the PDF.
+    """
     pdf = FPDF()
     pdf.add_page()
     data = {
@@ -133,6 +145,9 @@ def test_add_table_normal():
     assert result_pdf is not None
 
 def test_add_table_various_data_types():
+    """
+    Tests if `add_table()` correctly handles tables with various data types, including float, boolean, and string.
+    """
     pdf = FPDF()
     pdf.add_page()
     data = {
@@ -146,6 +161,9 @@ def test_add_table_various_data_types():
     assert result_pdf is not None
 
 def test_add_table_single_column():
+    """
+    Tests if `add_table()` correctly adds a table with a single column to the PDF.
+    """
     pdf = FPDF()
     pdf.add_page()
     data = {

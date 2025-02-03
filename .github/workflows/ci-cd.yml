@@ -70,9 +70,7 @@ jobs:
           token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Fetch all tags
-        run: |
-          git fetch --tags --force
-          git fetch --prune --unshallow
+        run: git fetch --tags --force
         
       - name: Use Python Semantic Release to prepare release
         id: release

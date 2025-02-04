@@ -34,20 +34,13 @@ def test_create_images():
         image = Image.new("RGB", (width, height), color=(255, 255, 255))  
         image.save(image_path)
 
-def test_invalid_dataset_type(mock_dataset):
+def test_invalid_dataset_type():
     """
     Tests if `summarize()` raises an AssertionError when `dataset` is not a pandas DataFrame.
     """
     with pytest.raises(AssertionError, match="Argument 'dataset' should be pandas dataframe"):
         summarize(dataset="not_a_dataframe")
 
-
-def test_invalid_show_observations(mock_dataset):
-    """
-    Tests if `summarize()` raises an AssertionError when `show_observations` is an invalid option.
-    """
-    with pytest.raises(AssertionError, match="Argument 'show_observations' should be one of the following options:"):
-        summarize(dataset=mock_dataset, show_observations="invalid_option")
 
 
 def test_invalid_summarize_by(mock_dataset):
@@ -56,13 +49,6 @@ def test_invalid_summarize_by(mock_dataset):
     """
     with pytest.raises(AssertionError, match="Argument 'summarize_by' should be one of the following options:"):
         summarize(dataset=mock_dataset, summarize_by="invalid_option")
-
-
-def test_auto_cleaning_argument(mock_dataset):
-    # Test when auto_cleaning is set to True, though here it's not fully implemented
-    result = summarize(dataset=mock_dataset, auto_cleaning=True)
-    # Assert that no errors occur with auto_cleaning set to True
-    assert result is None
 
 
 def test_output_directory_creation(mock_dataset):
@@ -99,7 +85,6 @@ def test_valid_summarize_call(mock_dataset):
         description="This is a test dataset.",
         target_variable = "Gender",
         summarize_by="table",
-        auto_cleaning=True,
         output_file="test_summary.pdf",
         output_dir="./summarease_summary_test/"
     )
@@ -124,7 +109,6 @@ def test_check_if_image_is_saved(mock_dataset):
         description="This is a test dataset.",
         target_variable = "Gender",
         summarize_by="plot",
-        auto_cleaning=True,
         output_file="test_summary.pdf",
         output_dir=output_dir
     )

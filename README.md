@@ -1,6 +1,9 @@
 # summarease
 
 [![Documentation Status](https://readthedocs.org/projects/summarease/badge/?version=latest)](https://summarease.readthedocs.io/en/latest/)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![codecov](https://codecov.io/gh/UBC-MDS/summarease/graph/badge.svg?token=s357F8AUVJ)](https://codecov.io/gh/UBC-MDS/summarease)
+[![ci-cd](https://github.com/UBC-MDS/summarease/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/UBC-MDS/summarease/actions/workflows/ci-cd.yml)
 
 ## Project Summary
 

@@ -66,8 +66,8 @@ def plot_correlation_heatmap(dataset_numeric: pd.DataFrame):
 
     Returns:
     -------
-    None
-        Displays the correlation heatmap or optionally saves it to the specified location.
+    alt.Chart
+        The Altair chart visualizing the correlation heatmap.
 
     Example:
     -------

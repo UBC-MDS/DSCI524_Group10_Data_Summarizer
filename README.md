@@ -49,6 +49,10 @@ To install the development version from git, use:
 $ pip install git+https://github.com/UBC-MDS/summarease.git
 ```
 
+## Documentation
+
+Package documentation can be found [here](https://summarease.readthedocs.io/en/latest/).
+
 ## Usage
 
 First, import the `summarize` function from `summarease.summarize` module.
@@ -100,6 +104,28 @@ help(summarize)
 ```
 
 If you find an error or inconsistency, please refer to the **Contributing** header.
+
+## Running tests
+
+You can always run the tests to see if the package works as expected.
+Before doing that, ensure that you have cloned the repository
+as described in the Installation section and `pytest` is installed.
+
+```bash
+pip install pytest
+```
+
+Navigate to the root directory of the package and run:
+
+```bash
+pytest
+```
+
+You can also get the coverage score by running the following command:
+
+```bash
+pytest --cov=summarease
+```
 
 ## Contributing
 

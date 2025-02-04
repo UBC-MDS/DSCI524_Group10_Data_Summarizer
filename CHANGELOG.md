@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v1.1.3 (2025-02-04)
+
+### Bug Fixes
+
+- Fixed docstrings, code and tests of the summarize function
+  ([`db694f2`](https://github.com/UBC-MDS/summarease/commit/db694f254c035b2e3fec2eb1189f71417623c9d2))
+
+### Chores
+
+- Added badges and more explanation about how to choose threshold
+  ([`b862e94`](https://github.com/UBC-MDS/summarease/commit/b862e942d648dbd07751e08ca834341fc5780452))
+
+
 ## v1.1.2 (2025-02-03)
 
 ### Bug Fixes

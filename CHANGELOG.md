@@ -1,6 +1,25 @@
 # CHANGELOG
 
 
+## v1.1.4 (2025-02-04)
+
+### Bug Fixes
+
+- A small typo in the docstring is fixed
+  ([`a97cf80`](https://github.com/UBC-MDS/summarease/commit/a97cf80a91d3c103b675d9a5537f9624c81e2609))
+
+- Fixed/addressed the correlation plot docstring
+  ([`f1d044e`](https://github.com/UBC-MDS/summarease/commit/f1d044eb10f31ad606dae3e81419e1e9d32abcd5))
+
+### Chores
+
+- A small change in the Why Choose Summarease? section
+  ([`0fc50fc`](https://github.com/UBC-MDS/summarease/commit/0fc50fccb983f907a1c3ed86991f38850beb98e9))
+
+- Added documentation and running tests sections
+  ([`1caa99d`](https://github.com/UBC-MDS/summarease/commit/1caa99dfb960238ec780228f5c5a5fa80dbb629f))
+
+
 ## v1.1.3 (2025-02-04)
 
 ### Bug Fixes

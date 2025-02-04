@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "summarease"
-version = "1.1.3"
+version = "1.1.4"
 description = "A package that provides quick summaries of datasets, including data types, missing value counts, and basic statistics."
 authors = ["Hrayr Muradyan, Yun Zhou, Stephanie Wu, Zuer Zhong"]
 license = "MIT"

@@ -1,5 +1,10 @@
 # summarease
 
+[![Documentation Status](https://readthedocs.org/projects/summarease/badge/?version=latest)](https://summarease.readthedocs.io/en/latest/)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![codecov](https://codecov.io/gh/UBC-MDS/summarease/graph/badge.svg?token=s357F8AUVJ)](https://codecov.io/gh/UBC-MDS/summarease)
+[![ci-cd](https://github.com/UBC-MDS/summarease/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/UBC-MDS/summarease/actions/workflows/ci-cd.yml)
+
 ## Project Summary
 
 Summarease is a package designed to provide quick insights into a dataset by summarizing its key features. It offers functions that help users understand the structure of the data, making it easier to plan data cleaning and exploratory data analysis (EDA) tasks.
@@ -22,26 +27,79 @@ Summarease is a package designed to provide quick insights into a dataset by sum
 
 Summarease is a lightweight and compact Python package designed for efficiency and ease of use. Despite its simplicity, it offers users great flexibility to customize the output format, whether through detailed tables or insightful visualizations.
 
-Related packages with similar functionalities:  
-sweetviz: https://github.com/fbdesignpro/sweetviz  
-ydata-profiling: https://github.com/ydataai/ydata-profiling  
-dtale: https://github.com/man-group/dtale  
+## Why Choose Summarease?
+There are several related Python packages with similar functionalities that offer dataset summarization, such as:
+- **pandas-profiling [ydata-profiling](https://github.com/ydataai/ydata-profiling)** – Generates a detailed HTML report but **can be slow for large datasets**.
+- **[sweetviz](https://github.com/fbdesignpro/sweetviz)** – Provides **comparative EDA reports**, but lacks customization options for PDF output.
+- **[dtale](https://github.com/man-group/dtale)** – Offers **interactive dashboards**, but may not be suitable for **quick, static reports**.
+  
+## `summarease` stands out because:
+✅ **Lightweight & Fast** – Summarization and reporting are optimized for performance.  
+✅ **Customizable Reports** – Users can configure tables, plots, and formats to match reporting needs.  
+✅ **PDF Export Support** – Unlike `sweetviz` and `dtale`, `summarease` directly generates PDF reports.  
+
 
 ## Installation
 
 ```bash
 $ pip install summarease
 ```
+To install the development version from git, use:
+```bash
+$ pip install git+https://github.com/UBC-MDS/summarease.git
+```
 
 ## Usage
 
-```python
-from summarease.summarize_dtypes import summarize_dtypes_table
-from summarease.summarize_numeric import summarize_numeric, plot_numeric_density, plot_correlation_heatmap
-from summarease.summarize_target import summarize_target_df, summarize_target_balance_plot
-from summarease.summarize import summarize, validate_or_create_path, add_image, add_table, switch_page_if_needed
+First, import the `summarize` function from `summarease.summarize` module.
 
+```python
+from summarease.summarize import summarize
 ```
+
+Next depending on the way you want summarize your datasets (whether using tables or plots) you can run the following commands:
+
+#### For generating a report using plots:
+
+The below code will generate a report that contains dominantly plots describing the numeric columns, target variable, correlation heatmap and a table summarizing the data types included in the data. It is intended as a reference to the syntax of our function. For more information, including a walkthrough on how to load the dataset, please see the [Example usage](https://summarease.readthedocs.io/en/latest/summarize.html#example-usage) section in the docs for the Summarize function. 
+
+```python
+summarize(
+    dataset=iris_df, 
+    dataset_name="Iris Dataset Summary", 
+    description="Iris Dataset can be found on the UCI Machine Learning Repository",
+    summarize_by="plot",
+    target_variable="target",
+    target_type="categorical",
+    output_file="iris_summary.pdf",
+    output_dir="./dataset_summary/"
+)
+```
+
+#### For generating a report using tables:
+
+The below code will generate a report that contains tables describing the numeric columns, target variable and data types.
+
+```python
+summarize(
+    dataset=iris_df, 
+    dataset_name="Iris Dataset Summary", 
+    description="Iris Dataset can be found on the UCI Machine Learning Repository",
+    summarize_by="table",
+    target_variable="target",
+    target_type="categorical",
+    output_file="iris_summary.pdf",
+    output_dir="./dataset_summary/"
+)
+```
+
+To get in-depth idea of the function you can always run the following code:
+
+```python
+help(summarize)
+```
+
+If you find an error or inconsistency, please refer to the **Contributing** header.
 
 ## Contributing
 
@@ -55,7 +113,7 @@ Please note that this project is released with a Code of Conduct. By contributin
 
 ## Contributors
 
-`summarease` was created by Hrayr Muradyan, Yun Zhou, Stephanie Wu, and Zuer Zhong.
+`summarease` was created by [Hrayr Muradyan](https://github.com/HrayrMuradyan), [Yun Zhou](https://github.com/Green-zy), [Stephanie Wu](https://github.com/stephqwu), and [Zuer Zhong](https://github.com/zze1999).
 
 ## Credits
 

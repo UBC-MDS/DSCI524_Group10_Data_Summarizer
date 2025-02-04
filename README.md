@@ -29,7 +29,7 @@ Summarease is a lightweight and compact Python package designed for efficiency a
 
 ## Why Choose Summarease?
 There are several related Python packages with similar functionalities that offer dataset summarization, such as:
-- **pandas-profiling [ydata-profiling](https://github.com/ydataai/ydata-profiling)** – Generates a detailed HTML report but **can be slow for large datasets**.
+- **[ydata-profiling](https://github.com/ydataai/ydata-profiling)** – Generates a detailed HTML report but **can be slow for large datasets**.
 - **[sweetviz](https://github.com/fbdesignpro/sweetviz)** – Provides **comparative EDA reports**, but lacks customization options for PDF output.
 - **[dtale](https://github.com/man-group/dtale)** – Offers **interactive dashboards**, but may not be suitable for **quick, static reports**.
   
@@ -48,6 +48,10 @@ To install the development version from git, use:
 ```bash
 $ pip install git+https://github.com/UBC-MDS/summarease.git
 ```
+
+## Documentation
+
+Package documentation can be found [here](https://summarease.readthedocs.io/en/latest/).
 
 ## Usage
 
@@ -100,6 +104,28 @@ help(summarize)
 ```
 
 If you find an error or inconsistency, please refer to the **Contributing** header.
+
+## Running tests
+
+You can always run the tests to see if the package works as expected.
+Before doing that, ensure that you have cloned the repository
+as described in the Installation section and `pytest` is installed.
+
+```bash
+pip install pytest
+```
+
+Navigate to the root directory of the package and run:
+
+```bash
+pytest
+```
+
+You can also get the coverage score by running the following command:
+
+```bash
+pytest --cov=summarease
+```
 
 ## Contributing
 

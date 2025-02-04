@@ -29,7 +29,7 @@ Summarease is a lightweight and compact Python package designed for efficiency a
 
 ## Why Choose Summarease?
 There are several related Python packages with similar functionalities that offer dataset summarization, such as:
-- **pandas-profiling [ydata-profiling](https://github.com/ydataai/ydata-profiling)** – Generates a detailed HTML report but **can be slow for large datasets**.
+- **[ydata-profiling](https://github.com/ydataai/ydata-profiling)** – Generates a detailed HTML report but **can be slow for large datasets**.
 - **[sweetviz](https://github.com/fbdesignpro/sweetviz)** – Provides **comparative EDA reports**, but lacks customization options for PDF output.
 - **[dtale](https://github.com/man-group/dtale)** – Offers **interactive dashboards**, but may not be suitable for **quick, static reports**.
   

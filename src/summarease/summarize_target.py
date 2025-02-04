@@ -32,6 +32,9 @@ def summarize_target_df(dataset_name: pd.DataFrame, target_variable: str,
     threshold : float, optional
         Only used if `target_type="categorical"`. 
         It identifies class imbalance.
+        User decides the threshold of imbalance. 
+        Typically, a target class is considered balanced if it varies within 20% of the average.
+        Of course, users can choose a narrower balance range, such as 10%.
 
     Examples
     --------

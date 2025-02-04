@@ -64,10 +64,10 @@ def plot_correlation_heatmap(dataset_numeric: pd.DataFrame):
     save_path : str, optional
         File path to save the generated heatmap. If None, the plot will not be saved.
 
-    Returns:
+    Returns
     -------
-    None
-        Displays the correlation heatmap or optionally saves it to the specified location.
+    alt.Chart
+        The Altair chart visualizing the correlation heatmap.
 
     Example:
     -------
